@@ -10,6 +10,8 @@ module.exports = {
             totalCardsInDeck += temp.copies;
             for (i = 0; i < temp.copies; i++) {
                 c = new Card(temp.tint, temp.title, temp.text);
+                c.x = game.rnd.between(200, 600);
+                c.y = game.rnd.between(200, 1000);
                 c.angle = game.rnd.between(-10,10);
             }
         }

@@ -16,7 +16,7 @@ var CardTextureBuilder = function(color, title, text, image) {
     var i, j = game.rnd.between(0,4);
     for (i = 0; i < j; i++)
         bmd.circle(game.rnd.between(50, 250), game.rnd.between(50, 450),
-        game.rnd.between(5, 15),'black');
+        game.rnd.between(5, 15), 'black');
     group.destroy();
     return bmd;
 };
