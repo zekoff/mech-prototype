@@ -22,13 +22,15 @@ var Card = function(color, title, text, image) {
 Card.prototype = Object.create(Phaser.Sprite.prototype);
 Card.constructor = Card;
 Card.prototype.flip = function() {
-    print('card flipping');
     // when card flips, replace texture with card back (but preserve gunshots?)
     var targetFace = !this.face;
-    var tween = game.tweens.create(this).to({width:0},75,null,true,0,0,true).onComplete.add(function(target,tween,tex){
+    var tween = game.tweens.create(this).to({width:0},75);
+    tween.onChildComplete.add(function(target,tween,tex){
         this.loadTexture(tex);
         this.face = targetFace;
     },this,0,targetFace ? this.cardFront : 'back');
+    tween.to({width:WIDTH},75);
+    tween.start();
 };
 
 module.exports = Card;
