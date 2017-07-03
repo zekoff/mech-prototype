@@ -1,5 +1,5 @@
 /* global Phaser */
-var game = new Phaser.Game(600, 900);
+var game = new Phaser.Game(800, 1200);
 var print = console.log.bind(console);
 global.game = game;
 global.mech = {};
