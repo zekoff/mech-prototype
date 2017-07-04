@@ -29,6 +29,10 @@ var Card = function(color, title, text, image) {
         GunshotDeformer(this.cardFront, x, y, size);
         GunshotDeformer(this.cardBack, 1 - x, y, size);
     }
+    this.events.onAddedToGroup.add(function(card, group) {
+        if (group.name === 'hand') card.inputEnabled = true;
+        else card.inputEnabled = false;
+    }, this);
     print('card created');
 };
 Card.prototype = Object.create(Phaser.Sprite.prototype);

@@ -7,9 +7,9 @@ module.exports = {
     create: function() {
         var temp, c, i = 0,
             totalCardsInDeck = 0,
-            drawPile = game.add.group(),
-            hand = game.add.group(),
-            discardPile = game.add.group();
+            drawPile = game.add.group(undefined, 'drawPile'),
+            hand = game.add.group(undefined, 'hand'),
+            discardPile = game.add.group(undefined, 'discardPile');
         while (deck.length > 0) {
             temp = deck.pop();
             totalCardsInDeck += temp.copies;
@@ -19,7 +19,7 @@ module.exports = {
                 c.x = 700;
                 c.y = 1050;
                 c.instantFlip();
-                c.angle = game.rnd.between(-5, 5);
+                c.angle = game.rnd.between(-2, 2);
             }
         }
         hand.onChildInputDown.add(function(target) {
@@ -49,16 +49,13 @@ module.exports = {
                 return;
             }
             print('card activated');
-            target.inputEnabled = false;
             game.tweens.create(target).to({
                 width: target.startingWidth,
                 height: target.startingHeight,
-                x: 400 + game.rnd.between(-10, 10),
+                x: 400 + game.rnd.between(-20, 20),
                 y: 1250 + game.rnd.between(-10, 10),
                 angle: game.rnd.between(-20, 20)
-            }, 200, null, true).onComplete.add(function(card) {
-                // card.inputEnabled = true;
-            }, target);
+            }, 200, null, true);
             hand.remove(target);
             discardPile.add(target);
         });
