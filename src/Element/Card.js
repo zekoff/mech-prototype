@@ -4,8 +4,9 @@ var GunshotDeformer = require('../Helper/GunshotDeformer');
 
 var BACK = false;
 var FRONT = true;
-var WIDTH = 150;
-var HEIGHT = 250;
+var WIDTH = 150; // px
+var HEIGHT = 250; // px
+var FLIP_SPEED = 150; // ms
 
 var Card = function(color, title, text, image) {
     this.cardFront = CardTextureBuilder(color, title, text);
@@ -18,7 +19,7 @@ var Card = function(color, title, text, image) {
     this.inputEnabled = true;
     this.input.draggable = true;
     this.face = FRONT;
-    this.events.onInputDown.add(this.flip, this);
+    // this.events.onInputDown.add(this.flip, this);
     var i, j = game.rnd.between(0, 4),
         x, y, size;
     for (i = 0; i < j; i++) {
@@ -37,15 +38,19 @@ Card.prototype.flip = function() {
     var targetFace = !this.face;
     var tween = game.tweens.create(this).to({
         width: 0
-    }, 75);
+    }, FLIP_SPEED / 2);
     tween.onChildComplete.add(function(target, tween, tex) {
         this.loadTexture(tex);
         this.face = targetFace;
     }, this, 0, targetFace ? this.cardFront : this.cardBack);
     tween.to({
         width: WIDTH
-    }, 75);
+    }, FLIP_SPEED / 2);
     tween.start();
+};
+Card.prototype.instantFlip = function() {
+    this.face = !this.face;
+    this.loadTexture(this.face ? this.cardFront : this.cardBack);
 };
 
 module.exports = Card;
