@@ -19,7 +19,6 @@ var Card = function(color, title, text, image) {
     this.inputEnabled = true;
     this.input.draggable = true;
     this.face = FRONT;
-    // this.events.onInputDown.add(this.flip, this);
     var i, j = game.rnd.between(0, 4),
         x, y, size;
     for (i = 0; i < j; i++) {
@@ -38,7 +37,6 @@ var Card = function(color, title, text, image) {
 Card.prototype = Object.create(Phaser.Sprite.prototype);
 Card.constructor = Card;
 Card.prototype.flip = function() {
-    // when card flips, replace texture with card back (but preserve gunshots?)
     var targetFace = !this.face;
     var tween = game.tweens.create(this).to({
         width: 0
@@ -53,8 +51,7 @@ Card.prototype.flip = function() {
     tween.start();
 };
 Card.prototype.instantFlip = function() {
-    this.face = !this.face;
-    this.loadTexture(this.face ? this.cardFront : this.cardBack);
+    this.loadTexture((this.face = !this.face) ? this.cardFront : this.cardBack);
 };
 
 module.exports = Card;
