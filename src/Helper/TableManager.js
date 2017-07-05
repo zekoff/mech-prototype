@@ -57,20 +57,22 @@ TableManager.returnCardToHand = function(card) {
 TableManager.drawCard = function(number) {
     // TODO make card drawing smarter; add cards to queue if a card is supposed to be drawn while cards are already tweening to player's hand
     // TODO re-arrange hand if cards leave hand
-    // TODO maybe cards aren't in the hand group while in transit from the drawPile group?
     if (!number) number = 1;
-    var i, c;
+    var i, c, t;
     for (i = 0; i < number; i++) {
         c = mech.drawPile.getTop();
         mech.drawPile.remove(c);
-        mech.hand.add(c);
-        game.tweens.create(c).to({
+        game.world.add(c);
+        t = game.tweens.create(c).to({
             x: 150 + 90 * i,
             y: 950 - i * 20,
             angle: -20 + 8 * i
-        }, 500, null, true, 300 + i * 200).onStart.add(function() {
+        }, 500, null, true, 300 + i * 200);
+        t.onStart.add(function() {
             this.flip();
-            mech.hand.bringToTop(this);
+        }, c);
+        t.onComplete.add(function() {
+            mech.hand.add(this);
         }, c);
     }
 };
