@@ -18,9 +18,11 @@ module.exports = {
             }
         });
         mech.cardsPlayedThisTurn = 0;
-        var temp, c, i = 0,
+        var temp, c, cardArray = [],
+            i = 0,
             totalCardsInDeck = 0;
         mech.drawPile = game.add.group(undefined, 'drawPile');
+        mech.transitionGroup = game.add.group(undefined, 'transitionGroup');
         mech.hand = game.add.group(undefined, 'hand');
         mech.discardPile = game.add.group(undefined, 'discardPile');
         while (deck.length > 0) {
@@ -28,10 +30,15 @@ module.exports = {
             totalCardsInDeck += temp.copies;
             for (i = 0; i < temp.copies; i++) {
                 c = new Card(temp.tint, temp.title, temp.text);
-                mech.drawPile.add(c);
+                // mech.drawPile.add(c);
+                cardArray.push(c);
             }
         }
-        Phaser.ArrayUtils.shuffle(mech.drawPile.children);
+        Phaser.ArrayUtils.shuffle(cardArray);
+        cardArray.forEach(function(element) {
+            mech.drawPile.add(element);
+        });
+        // Phaser.ArrayUtils.shuffle(mech.drawPile.children);
         TableManager.initializeDrawPile(mech.drawPile);
         mech.hand.onChildInputDown.add(TableManager.pickCardFromHand);
         mech.hand.onChildInputUp.add(function(card) {

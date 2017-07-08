@@ -58,11 +58,10 @@ TableManager.drawCard = function(number) {
     // TODO make card drawing smarter; add cards to queue if a card is supposed to be drawn while cards are already tweening to player's hand
     // TODO re-arrange hand if cards leave hand
     if (!number) number = 1;
-    var i, c, t;
+    var i, t, c;
     for (i = 0; i < number; i++) {
         c = mech.drawPile.getTop();
-        mech.drawPile.remove(c);
-        game.world.add(c);
+        mech.transitionGroup.add(c, false, 0);
         t = game.tweens.create(c).to({
             x: 150 + 90 * i,
             y: 950 - i * 20,
