@@ -48,7 +48,12 @@ module.exports = {
         });
         var e = new Enemy();
         game.world.sendToBack(e);
-        TableManager.drawCard(5);
+        var timer = game.time.create();
+        // Some kind of race condition occurs by starting the card draw tweens so soon after game init. Adding this half-second delay helps for some reason.
+        timer.add(500, function() {
+            TableManager.drawCard(5);
+        });
+        timer.start();
         var uiLine = game.add.sprite(0, 500, 'pix');
         uiLine.height = 2;
         uiLine.width = 800;
