@@ -10,6 +10,11 @@ module.exports = {
         game.load.image('blue');
         game.load.image('red');
         game.load.image('green');
+        game.load.image('legs');
+        game.load.image('body');
+        game.load.image('left_arm');
+        game.load.image('right_arm');
+        game.load.image('head');
     },
     create: function(){
         game.state.start('Main');
