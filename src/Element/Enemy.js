@@ -26,8 +26,8 @@ var Enemy = function() {
     this.componentLeg = game.make.sprite(400, 300, 'legs');
     this.componentLeg.componentName = 'legs';
     this.add(this.componentLeg);
-    this.forEach(function(component){
-        component.anchor.set(0.5,0.5);
+    this.forEach(function(component) {
+        component.anchor.set(0.5, 0.5);
         component.width = WIDTH;
         component.height = HEIGHT;
         component.input.pixelPerfectClick = true;

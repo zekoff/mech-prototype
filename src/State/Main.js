@@ -2,6 +2,7 @@
 var Card = require('../Element/Card');
 var Enemy = require('../Element/Enemy');
 var TableManager = require('../Helper/TableManager');
+var Hand = require('../Element/Hand');
 var deck = require('../Deck/Cowboy');
 
 module.exports = {
@@ -14,43 +15,41 @@ module.exports = {
                 print('player turn ended');
                 mech.cardsPlayedThisTurn = 0;
                 mech.hand.forEach(TableManager.tweenToDiscardPile);
+                var i = 0, num = mech.hand.length;
+                for (i; i < num; i++){
+                    mech.discardPile.add(mech.hand.getTop());
+                }
                 TableManager.drawCard(5);
             }
         });
         mech.cardsPlayedThisTurn = 0;
-        var temp, c, cardArray = [],
+        var temp,
             i = 0,
             totalCardsInDeck = 0;
         mech.drawPile = game.add.group(undefined, 'drawPile');
         mech.transitionGroup = game.add.group(undefined, 'transitionGroup');
-        mech.hand = game.add.group(undefined, 'hand');
+        // mech.hand = game.add.group(undefined, 'hand');
+        mech.hand = new Hand();
         mech.discardPile = game.add.group(undefined, 'discardPile');
         while (deck.length > 0) {
             temp = deck.pop();
             totalCardsInDeck += temp.copies;
-            for (i = 0; i < temp.copies; i++) {
-                c = new Card(temp.tint, temp.title, temp.text);
-                // mech.drawPile.add(c);
-                cardArray.push(c);
-            }
+            for (i = 0; i < temp.copies; i++)
+                mech.drawPile.add(new Card(temp.tint, temp.title, temp.text));
         }
-        Phaser.ArrayUtils.shuffle(cardArray);
-        cardArray.forEach(function(element) {
-            mech.drawPile.add(element);
-        });
-        // Phaser.ArrayUtils.shuffle(mech.drawPile.children);
+        Phaser.ArrayUtils.shuffle(mech.drawPile.children);
         TableManager.initializeDrawPile(mech.drawPile);
         mech.hand.onChildInputDown.add(TableManager.pickCardFromHand);
         mech.hand.onChildInputUp.add(function(card) {
-            if (card.y > 500) {
+            if (card.y > 500)
                 TableManager.returnCardToHand(card);
-            }
             else {
                 print('card activated');
                 mech.cardActivated.dispatch();
                 TableManager.tweenToDiscardPile(card);
-                mech.hand.remove(card);
+                mech.hand.removeFromHand(card);
                 mech.discardPile.add(card);
+                TableManager.drawCard();
             }
         });
         var e = new Enemy();

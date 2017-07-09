@@ -71,7 +71,7 @@ TableManager.drawCard = function(number) {
             this.flip();
         }, c);
         t.onComplete.add(function() {
-            mech.hand.add(this);
+            mech.hand.addToHand(this);
         }, c);
     }
 };
