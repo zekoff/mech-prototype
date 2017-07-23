@@ -67,24 +67,11 @@ TableManager.returnCardToHand = function(card) {
 };
 TableManager.drawCard = function(number) {
     // TODO make card drawing smarter; add cards to queue if a card is supposed to be drawn while cards are already tweening to player's hand
-    // TODO re-arrange hand if cards leave hand
     if (!number) number = 1;
-    var i, t, c;
+    var i, c;
     for (i = 0; i < number; i++) {
         c = mech.drawPile.getTop();
-        // mech.transitionGroup.add(c, false, 0);
         c.flip();
-        // t = game.tweens.create(c).to({
-        //     x: 150 + 90 * i,
-        //     y: 950 - i * 20,
-        //     angle: -20 + 8 * i
-        // }, 500, null, true, 300 + i * 200);
-        // t.onStart.add(function() {
-        //     this.flip();
-        // }, c);
-        // t.onComplete.add(function() {
-        //     mech.hand.addToHand(this);
-        // }, c);
         mech.hand.addToHand(c);
     }
 };
