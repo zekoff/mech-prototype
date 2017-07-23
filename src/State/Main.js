@@ -23,9 +23,6 @@ module.exports = {
                     mech.discardPile.add(mech.hand.getTop());
                 }
                 TableManager.drawCard(5);
-                mech.actionQueue.registerFunction(function() {
-                    print('*********haha adding a new function when will this text show up?');
-                });
             }
             else TableManager.drawCard();
         });

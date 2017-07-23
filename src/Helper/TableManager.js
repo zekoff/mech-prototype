@@ -77,15 +77,19 @@ TableManager.drawCard = function(number) {
         number = mech.drawPile.length;
     }
     var i, c;
-    for (i = 0; i < number; i++) {
-        c = mech.drawPile.getTop();
-        c.flip();
-        mech.hand.addToHand(c);
-    }
-    if (leftover) {
-        TableManager.reshuffle();
-        TableManager.drawCard(leftover);
-    }
+    mech.actionQueue.registerFunction(
+        function() {
+            for (i = 0; i < number; i++) {
+                c = mech.drawPile.getTop();
+                c.flip();
+                mech.hand.addToHand(c);
+            }
+            if (leftover) {
+                mech.actionQueue.registerFunction(TableManager.reshuffle);
+                for (i = 0; i < leftover; i++)
+                    mech.actionQueue.registerFunction(TableManager.drawCard);
+            }
+        });
 };
 TableManager.reshuffle = function() {
     var temp = [];
