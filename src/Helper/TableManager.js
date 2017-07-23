@@ -10,14 +10,17 @@ TableManager.drawPileLocation = {
     y: 1050
 };
 TableManager.tweenSpeed = 100; //ms
-TableManager.tweenObject = function(obj, newX, newY, newAngle) {
+TableManager.createObjectTween = function(obj, newX, newY, newAngle) {
     obj.inputEnabled = false;
     if (!newAngle) newAngle = 0;
     var t = game.tweens.create(obj).to({
         x: newX,
         y: newY,
         angle: newAngle
-    }, TableManager.tweenSpeed, null, true);
+    }, TableManager.tweenSpeed);
+    t.onStart.add(function() {
+        this.inputEnabled = false;
+    }, obj);
     t.onComplete.add(function() {
         this.inputEnabled = true;
     }, obj);
@@ -36,7 +39,7 @@ TableManager.tweenToDiscardPile = function(card) {
     card.width = card.startingWidth;
     card.height = card.startingHeight;
     card.alpha = 1;
-    TableManager.tweenObject(card, 400 + game.rnd.between(-20, 20), 1250 + game.rnd.between(-10, 10), game.rnd.between(-20, 20));
+    TableManager.createObjectTween(card, 400 + game.rnd.between(-20, 20), 1250 + game.rnd.between(-10, 10), game.rnd.between(-20, 20)).start();
 };
 TableManager.pickCardFromHand = function(card) {
     card.startingAngle = card.angle;
@@ -86,10 +89,10 @@ TableManager.drawCard = function(number) {
 };
 TableManager.reshuffle = function() {
     var temp = [];
-    mech.discardPile.forEach(function(element){
+    mech.discardPile.forEach(function(element) {
         temp.push(element);
     });
-    temp.forEach(function(element){
+    temp.forEach(function(element) {
         mech.discardPile.remove(element);
         mech.drawPile.add(element);
     });

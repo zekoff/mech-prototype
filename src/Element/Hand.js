@@ -15,7 +15,7 @@ Hand.prototype.addToHand = function(card) {
     var i, t, c;
     for (i = 0; i < this.length; i++) {
         c = this.getChildAt(i);
-        t = TableManager.tweenObject(c, 150 + 90 * i, 950 - i * 20, -20 + 8 * i);
+        t = TableManager.createObjectTween(c, 150 + 90 * i, 950 - i * 20, -20 + 8 * i).start();
         this.fanTweens.push(t);
     }
 };

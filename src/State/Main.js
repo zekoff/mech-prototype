@@ -2,12 +2,13 @@
 var Card = require('../Element/Card');
 var Enemy = require('../Element/Enemy');
 var TableManager = require('../Helper/TableManager');
+var ActionQueue = require('../Element/ActionQueue');
 var Hand = require('../Element/Hand');
 var deck = require('../Deck/Cowboy');
 
 module.exports = {
     create: function() {
-        mech.actionQueue = [];
+        mech.actionQueue = new ActionQueue();
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function() {
             mech.cardsPlayedThisTurn++;
@@ -16,12 +17,17 @@ module.exports = {
                 print('player turn ended');
                 mech.cardsPlayedThisTurn = 0;
                 mech.hand.forEach(TableManager.tweenToDiscardPile);
-                var i = 0, num = mech.hand.length;
-                for (i; i < num; i++){
+                var i = 0,
+                    num = mech.hand.length;
+                for (i; i < num; i++) {
                     mech.discardPile.add(mech.hand.getTop());
                 }
                 TableManager.drawCard(5);
-            } else TableManager.drawCard();
+                mech.actionQueue.registerFunction(function() {
+                    print('*********haha adding a new function when will this text show up?');
+                });
+            }
+            else TableManager.drawCard();
         });
         mech.cardsPlayedThisTurn = 0;
         var temp,
