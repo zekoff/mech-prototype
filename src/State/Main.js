@@ -7,6 +7,7 @@ var deck = require('../Deck/Cowboy');
 
 module.exports = {
     create: function() {
+        mech.actionQueue = [];
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function() {
             mech.cardsPlayedThisTurn++;
@@ -20,7 +21,7 @@ module.exports = {
                     mech.discardPile.add(mech.hand.getTop());
                 }
                 TableManager.drawCard(5);
-            }
+            } else TableManager.drawCard();
         });
         mech.cardsPlayedThisTurn = 0;
         var temp,
@@ -37,19 +38,17 @@ module.exports = {
             for (i = 0; i < temp.copies; i++)
                 mech.drawPile.add(new Card(temp.tint, temp.title, temp.text));
         }
-        Phaser.ArrayUtils.shuffle(mech.drawPile.children);
-        TableManager.initializeDrawPile(mech.drawPile);
+        TableManager.initializeDrawPile();
         mech.hand.onChildInputDown.add(TableManager.pickCardFromHand);
         mech.hand.onChildInputUp.add(function(card) {
             if (card.y > 500)
                 TableManager.returnCardToHand(card);
             else {
                 print('card activated');
-                mech.cardActivated.dispatch();
                 TableManager.tweenToDiscardPile(card);
                 mech.hand.removeFromHand(card);
                 mech.discardPile.add(card);
-                TableManager.drawCard();
+                mech.cardActivated.dispatch();
             }
         });
         var e = new Enemy();

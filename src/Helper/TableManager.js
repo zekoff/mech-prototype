@@ -1,7 +1,6 @@
 /* global mech, game, Phaser */
 
 var TableManager = {};
-TableManager.tweenList = [];
 TableManager.discardPileLocation = {
     x: 400,
     y: 1250
@@ -25,6 +24,7 @@ TableManager.tweenObject = function(obj, newX, newY, newAngle) {
     return t;
 };
 TableManager.initializeDrawPile = function() {
+    Phaser.ArrayUtils.shuffle(mech.drawPile.children);
     mech.drawPile.forEach(function(child) {
         child.x = TableManager.drawPileLocation.x;
         child.y = TableManager.drawPileLocation.y;
@@ -68,12 +68,32 @@ TableManager.returnCardToHand = function(card) {
 TableManager.drawCard = function(number) {
     // TODO make card drawing smarter; add cards to queue if a card is supposed to be drawn while cards are already tweening to player's hand
     if (!number) number = 1;
+    var leftover = 0;
+    if (number > mech.drawPile.length) {
+        leftover = number - mech.drawPile.length;
+        number = mech.drawPile.length;
+    }
     var i, c;
     for (i = 0; i < number; i++) {
         c = mech.drawPile.getTop();
         c.flip();
         mech.hand.addToHand(c);
     }
+    if (leftover) {
+        TableManager.reshuffle();
+        TableManager.drawCard(leftover);
+    }
+};
+TableManager.reshuffle = function() {
+    var temp = [];
+    mech.discardPile.forEach(function(element){
+        temp.push(element);
+    });
+    temp.forEach(function(element){
+        mech.discardPile.remove(element);
+        mech.drawPile.add(element);
+    });
+    TableManager.initializeDrawPile();
 };
 
 module.exports = TableManager;
