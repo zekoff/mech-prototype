@@ -1,6 +1,7 @@
 /* global mech, game, Phaser */
 
 var TableManager = {};
+TableManager.tweenList = [];
 TableManager.discardPileLocation = {
     x: 400,
     y: 1250
@@ -8,6 +9,20 @@ TableManager.discardPileLocation = {
 TableManager.drawPileLocation = {
     x: 700,
     y: 1050
+};
+TableManager.tweenSpeed = 100; //ms
+TableManager.tweenObject = function(obj, newX, newY, newAngle) {
+    obj.inputEnabled = false;
+    if (!newAngle) newAngle = 0;
+    var t = game.tweens.create(obj).to({
+        x: newX,
+        y: newY,
+        angle: newAngle
+    }, TableManager.tweenSpeed, null, true);
+    t.onComplete.add(function() {
+        this.inputEnabled = true;
+    }, obj);
+    return t;
 };
 TableManager.initializeDrawPile = function() {
     mech.drawPile.forEach(function(child) {
@@ -18,14 +33,10 @@ TableManager.initializeDrawPile = function() {
     });
 };
 TableManager.tweenToDiscardPile = function(card) {
-    game.tweens.create(card).to({
-        width: card.startingWidth,
-        height: card.startingHeight,
-        x: 400 + game.rnd.between(-20, 20),
-        y: 1250 + game.rnd.between(-10, 10),
-        angle: game.rnd.between(-20, 20),
-        alpha: 1
-    }, 200, null, true);
+    card.width = card.startingWidth;
+    card.height = card.startingHeight;
+    card.alpha = 1;
+    TableManager.tweenObject(card, 400 + game.rnd.between(-20, 20), 1250 + game.rnd.between(-10, 10), game.rnd.between(-20, 20));
 };
 TableManager.pickCardFromHand = function(card) {
     card.startingAngle = card.angle;
@@ -61,18 +72,20 @@ TableManager.drawCard = function(number) {
     var i, t, c;
     for (i = 0; i < number; i++) {
         c = mech.drawPile.getTop();
-        mech.transitionGroup.add(c, false, 0);
-        t = game.tweens.create(c).to({
-            x: 150 + 90 * i,
-            y: 950 - i * 20,
-            angle: -20 + 8 * i
-        }, 500, null, true, 300 + i * 200);
-        t.onStart.add(function() {
-            this.flip();
-        }, c);
-        t.onComplete.add(function() {
-            mech.hand.addToHand(this);
-        }, c);
+        // mech.transitionGroup.add(c, false, 0);
+        c.flip();
+        // t = game.tweens.create(c).to({
+        //     x: 150 + 90 * i,
+        //     y: 950 - i * 20,
+        //     angle: -20 + 8 * i
+        // }, 500, null, true, 300 + i * 200);
+        // t.onStart.add(function() {
+        //     this.flip();
+        // }, c);
+        // t.onComplete.add(function() {
+        //     mech.hand.addToHand(this);
+        // }, c);
+        mech.hand.addToHand(c);
     }
 };
 

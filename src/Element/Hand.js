@@ -1,4 +1,5 @@
 /* global Phaser, game, mech */
+var TableManager = require('../Helper/TableManager');
 var Hand = function() {
     Phaser.Group.call(this, game, game.world, 'hand');
     this.fanTweens = [];
@@ -14,12 +15,7 @@ Hand.prototype.addToHand = function(card) {
     var i, t, c;
     for (i = 0; i < this.length; i++) {
         c = this.getChildAt(i);
-        t = game.tweens.create(c).to({
-            x: 150 + 90 * i,
-            y: 950 - i * 20,
-            angle: -20 + 8 * i
-
-        }, 300, null, true);
+        t = TableManager.tweenObject(c, 150 + 90 * i, 950 - i * 20, -20 + 8 * i);
         this.fanTweens.push(t);
     }
 };
