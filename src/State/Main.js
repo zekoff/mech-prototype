@@ -24,7 +24,7 @@ module.exports = {
                 }
                 TableManager.drawCard(5);
             }
-            else TableManager.drawCard();
+            // else TableManager.drawCard();
         });
         mech.cardsPlayedThisTurn = 0;
         var temp,
@@ -32,7 +32,6 @@ module.exports = {
             totalCardsInDeck = 0;
         mech.drawPile = game.add.group(undefined, 'drawPile');
         mech.transitionGroup = game.add.group(undefined, 'transitionGroup');
-        // mech.hand = game.add.group(undefined, 'hand');
         mech.hand = new Hand();
         mech.discardPile = game.add.group(undefined, 'discardPile');
         while (deck.length > 0) {
@@ -47,7 +46,6 @@ module.exports = {
             if (card.y > 500)
                 TableManager.returnCardToHand(card);
             else {
-                print('card activated');
                 TableManager.tweenToDiscardPile(card);
                 mech.hand.removeFromHand(card);
                 mech.discardPile.add(card);

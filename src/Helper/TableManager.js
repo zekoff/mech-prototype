@@ -27,6 +27,7 @@ TableManager.createObjectTween = function(obj, newX, newY, newAngle) {
     return t;
 };
 TableManager.initializeDrawPile = function() {
+    print('initializing draw pile');
     Phaser.ArrayUtils.shuffle(mech.drawPile.children);
     mech.drawPile.forEach(function(child) {
         child.x = TableManager.drawPileLocation.x;
@@ -69,29 +70,30 @@ TableManager.returnCardToHand = function(card) {
     }, card);
 };
 TableManager.drawCard = function(number) {
-    // TODO make card drawing smarter; add cards to queue if a card is supposed to be drawn while cards are already tweening to player's hand
     if (!number) number = 1;
     var leftover = 0;
     if (number > mech.drawPile.length) {
         leftover = number - mech.drawPile.length;
         number = mech.drawPile.length;
     }
-    var i, c;
-    mech.actionQueue.registerFunction(
-        function() {
-            for (i = 0; i < number; i++) {
-                c = mech.drawPile.getTop();
+    var i;
+    for (i = 0; i < number; i++) {
+        mech.actionQueue.registerFunction(
+            function() {
+                var c = mech.drawPile.getTop();
                 c.flip();
                 mech.hand.addToHand(c);
-            }
-            if (leftover) {
-                mech.actionQueue.registerFunction(TableManager.reshuffle);
-                for (i = 0; i < leftover; i++)
-                    mech.actionQueue.registerFunction(TableManager.drawCard);
-            }
-        });
+            });
+    }
+    if (leftover) {
+        mech.actionQueue.registerFunction(TableManager.reshuffle);
+        for (i = 0; i < leftover; i++)
+            mech.actionQueue.registerFunction(TableManager.drawCard);
+    }
+
 };
 TableManager.reshuffle = function() {
+    print('reshuffling');
     var temp = [];
     mech.discardPile.forEach(function(element) {
         temp.push(element);
