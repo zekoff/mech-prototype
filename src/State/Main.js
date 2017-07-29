@@ -20,7 +20,9 @@ module.exports = {
                 var i = 0,
                     num = mech.hand.length;
                 for (i; i < num; i++) {
-                    mech.discardPile.add(mech.hand.getTop());
+                    mech.actionQueue.registerFunction(function() {
+                        mech.discardPile.add(mech.hand.getTop());
+                    });
                 }
                 TableManager.drawCard(5);
             }
@@ -46,10 +48,13 @@ module.exports = {
             if (card.y > 500)
                 TableManager.returnCardToHand(card);
             else {
-                TableManager.tweenToDiscardPile(card);
-                mech.hand.removeFromHand(card);
-                mech.discardPile.add(card);
-                mech.cardActivated.dispatch();
+                mech.actionQueue.registerFunction(function() {
+                    TableManager.tweenToDiscardPile(card);
+                    mech.hand.removeFromHand(card);
+                    mech.discardPile.add(card);
+                    // mech.cardActivated.dispatch();
+                });
+                mech.actionQueue.registerFunction(mech.cardActivated.dispatch.bind(mech.cardActivated));
             }
         });
         var e = new Enemy();
