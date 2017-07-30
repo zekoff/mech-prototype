@@ -36,11 +36,11 @@ TableManager.initializeDrawPile = function() {
         child.angle = game.rnd.between(-2, 2);
     });
 };
-TableManager.tweenToDiscardPile = function(card) {
+TableManager.createTweenToDiscardPile = function(card) {
     card.width = card.startingWidth;
     card.height = card.startingHeight;
     card.alpha = 1;
-    TableManager.createObjectTween(card, 400 + game.rnd.between(-20, 20), 1250 + game.rnd.between(-10, 10), game.rnd.between(-20, 20)).start();
+    return TableManager.createObjectTween(card, 400 + game.rnd.between(-20, 20), 1250 + game.rnd.between(-10, 10), game.rnd.between(-20, 20));
 };
 TableManager.pickCardFromHand = function(card) {
     card.startingAngle = card.angle;
@@ -56,6 +56,7 @@ TableManager.pickCardFromHand = function(card) {
     }, 75, null, true);
 };
 TableManager.returnCardToHand = function(card) {
+    // TODO get rid of this, and when releasing card just return to hand via hand-fan function
     card.inputEnabled = false;
     mech.hand.setChildIndex(card, card.startingIndex);
     game.tweens.create(card).to({
@@ -80,6 +81,7 @@ TableManager.drawCard = function(number) {
     for (i = 0; i < number; i++) {
         mech.actionQueue.registerFunction(
             function() {
+                print('drawing card');
                 var c = mech.drawPile.getTop();
                 c.flip();
                 mech.hand.addToHand(c);

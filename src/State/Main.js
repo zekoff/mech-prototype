@@ -16,7 +16,10 @@ module.exports = {
                 // end turn and cycle to enemy turn
                 print('player turn ended');
                 mech.cardsPlayedThisTurn = 0;
-                mech.hand.forEach(TableManager.tweenToDiscardPile);
+                mech.hand.forEach(function(card) {
+                    mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
+                });
+                // TableManager.tweenToDiscardPile);
                 var i = 0,
                     num = mech.hand.length;
                 for (i; i < num; i++) {
@@ -48,12 +51,14 @@ module.exports = {
             if (card.y > 500)
                 TableManager.returnCardToHand(card);
             else {
-                mech.actionQueue.registerFunction(function() {
-                    TableManager.tweenToDiscardPile(card);
-                    mech.hand.removeFromHand(card);
-                    mech.discardPile.add(card);
-                    // mech.cardActivated.dispatch();
-                });
+                mech.hand.removeFromHand(card);
+                mech.discardPile.add(card);
+                mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
+                // TableManager.tweenToDiscardPile(card);
+                // mech.hand.removeFromHand(card);
+                // mech.discardPile.add(card);
+                // mech.cardActivated.dispatch();
+
                 mech.actionQueue.registerFunction(mech.cardActivated.dispatch.bind(mech.cardActivated));
             }
         });

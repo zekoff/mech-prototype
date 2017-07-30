@@ -14,7 +14,9 @@ var Card = function(color, title, text, image) {
     Phaser.Sprite.call(this, game, 0, 0, this.cardFront);
     game.add.existing(this);
     this.width = WIDTH;
+    this.startingWidth = WIDTH;
     this.height = HEIGHT;
+    this.startingHeight = HEIGHT;
     this.anchor.set(0.5, 0.5);
     this.inputEnabled = true;
     this.input.draggable = true;
