@@ -11,6 +11,19 @@ module.exports = {
         mech.actionQueue = new ActionQueue();
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function() {
+            // XXX pop up sample damage text
+            var bmt = game.add.bitmapText(400, 600, 'western', 'Hit! 34dmg', 128);
+            bmt.tint = 0xff0000;
+            bmt.anchor.set(0.5, 0.5);
+            var bmtTween = game.tweens.create(bmt).to({
+                y: bmt.y - 200,
+                alpha: 0.5
+            }, 1500);
+            bmtTween.onComplete.add(function() {
+                bmt.destroy();
+            });
+            bmtTween.start();
+            // XXX end sample damage text
             mech.cardsPlayedThisTurn++;
             if (mech.cardsPlayedThisTurn > 2) {
                 // end turn and cycle to enemy turn

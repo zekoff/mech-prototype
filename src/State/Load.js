@@ -16,6 +16,7 @@ module.exports = {
         game.load.image('left_arm');
         game.load.image('right_arm');
         game.load.image('head');
+        game.load.bitmapFont('western','western.png','western.fnt');
     },
     create: function(){
         game.state.start('Main');
