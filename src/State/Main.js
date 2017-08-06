@@ -1,10 +1,10 @@
 /* global game, mech, Phaser */
 var Card = require('../Element/Card');
+var Player = require('../Element/Player');
 var Enemy = require('../Element/Enemy');
 var TableManager = require('../Helper/TableManager');
 var ActionQueue = require('../Element/ActionQueue');
 var Hand = require('../Element/Hand');
-var TextPopup = require('../Helper/TextPopup');
 var deck = require('../Deck/Cowboy');
 
 module.exports = {
@@ -61,6 +61,7 @@ module.exports = {
                 mech.actionQueue.registerFunction(mech.cardActivated.dispatch.bind(mech.cardActivated, card));
             }
         });
+        mech.player = new Player();
         mech.enemy = new Enemy();
         game.world.sendToBack(mech.enemy);
         var timer = game.time.create();

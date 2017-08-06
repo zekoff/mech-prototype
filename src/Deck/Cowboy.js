@@ -28,7 +28,10 @@ module.exports = [{
         text: "Heal 1 damage.",
         value: 1,
         tint: 'green',
-        copies: 3
+        copies: 3,
+        action: function(amount) {
+            mech.player.receiveHealing(amount);
+        }
     },
     {
         title: "DODGE",

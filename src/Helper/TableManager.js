@@ -81,7 +81,6 @@ TableManager.drawCard = function(number) {
     for (i = 0; i < number; i++) {
         mech.actionQueue.registerFunction(
             function() {
-                print('drawing card');
                 var c = mech.drawPile.getTop();
                 c.flip();
                 mech.hand.addToHand(c);
