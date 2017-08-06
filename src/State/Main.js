@@ -4,6 +4,7 @@ var Enemy = require('../Element/Enemy');
 var TableManager = require('../Helper/TableManager');
 var ActionQueue = require('../Element/ActionQueue');
 var Hand = require('../Element/Hand');
+var TextPopup = require('../Helper/TextPopup');
 var deck = require('../Deck/Cowboy');
 
 module.exports = {
@@ -12,17 +13,7 @@ module.exports = {
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function() {
             // XXX pop up sample damage text
-            var bmt = game.add.bitmapText(400, 600, 'western', 'Hit! 34dmg', 128);
-            bmt.tint = 0xff0000;
-            bmt.anchor.set(0.5, 0.5);
-            var bmtTween = game.tweens.create(bmt).to({
-                y: bmt.y - 200,
-                alpha: 0.5
-            }, 1500);
-            bmtTween.onComplete.add(function() {
-                bmt.destroy();
-            });
-            bmtTween.start();
+            TextPopup('34 dmg', 0xff0000);
             // XXX end sample damage text
             mech.cardsPlayedThisTurn++;
             if (mech.cardsPlayedThisTurn > 2) {
