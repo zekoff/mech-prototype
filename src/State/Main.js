@@ -11,9 +11,9 @@ module.exports = {
     create: function() {
         mech.actionQueue = new ActionQueue();
         mech.cardActivated = new Phaser.Signal();
-        mech.cardActivated.add(function() {
+        mech.cardActivated.add(function(card) {
             // XXX pop up sample damage text
-            TextPopup('34 dmg', 0xff0000);
+            card.action(card.value);
             // XXX end sample damage text
             mech.cardsPlayedThisTurn++;
             if (mech.cardsPlayedThisTurn > 2) {
@@ -47,7 +47,7 @@ module.exports = {
             temp = deck.pop();
             totalCardsInDeck += temp.copies;
             for (i = 0; i < temp.copies; i++)
-                mech.drawPile.add(new Card(temp.tint, temp.title, temp.text));
+                mech.drawPile.add(new Card(temp.tint, temp.title, temp.text, temp.value, temp.action));
         }
         TableManager.initializeDrawPile();
         mech.hand.onChildInputDown.add(TableManager.pickCardFromHand);
@@ -58,7 +58,7 @@ module.exports = {
                 mech.hand.removeFromHand(card);
                 mech.discardPile.add(card);
                 mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
-                mech.actionQueue.registerFunction(mech.cardActivated.dispatch.bind(mech.cardActivated));
+                mech.actionQueue.registerFunction(mech.cardActivated.dispatch.bind(mech.cardActivated, card));
             }
         });
         mech.enemy = new Enemy();

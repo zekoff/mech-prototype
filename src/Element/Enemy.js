@@ -49,5 +49,20 @@ Enemy.prototype.takeTurn = function() {
     });
     mech.actionQueue.registerTween(t);
 };
+Enemy.prototype.receiveDamage = function(amount) {
+    print('took', amount, 'damage');
+    var explosion = game.add.image(400, 400, 'explosion');
+    explosion.width = 100;
+    explosion.height = 100;
+    explosion.anchor.set(0.5);
+    var t = game.tweens.create(explosion);
+    t.to({ angle: 90 }, 900);
+    t.onComplete.add(function() {
+        TextPopup(amount + " dmg", 0xff0000, 400, 400);
+        explosion.destroy();
+        // XXX reduce enemy health
+    });
+    mech.actionQueue.registerTween(t);
+};
 
 module.exports = Enemy;

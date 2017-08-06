@@ -1,10 +1,13 @@
-module.exports = [
-    {
+/* global mech */
+module.exports = [{
         title: "ATTACK",
         text: "Deal 1 damage.",
         value: 1,
         tint: 'red',
-        copies: 8
+        copies: 8,
+        action: function(amount) {
+            mech.enemy.receiveDamage(amount);
+        }
     },
     {
         title: "RELOAD",
