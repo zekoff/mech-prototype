@@ -33,21 +33,13 @@ var Enemy = function() {
         component.height = HEIGHT;
         component.input.pixelPerfectClick = true;
     });
+
+    this.health = 10;
 };
 Enemy.prototype = Object.create(Phaser.Group.prototype);
 Enemy.constructor = Enemy;
 Enemy.prototype.takeTurn = function() {
-    var explosion = game.add.image(400, 900, 'explosion');
-    explosion.width = 200;
-    explosion.height = 200;
-    explosion.anchor.set(0.5);
-    var t = game.tweens.create(explosion);
-    t.to({ angle: 90 }, 900);
-    t.onComplete.add(function() {
-        explosion.destroy();
-        TextPopup("10 dmg", 0xff0000, 400, 900);
-    });
-    mech.actionQueue.registerTween(t);
+    mech.player.receiveDamage(1);
 };
 Enemy.prototype.receiveDamage = function(amount) {
     print('took', amount, 'damage');
@@ -61,7 +53,9 @@ Enemy.prototype.receiveDamage = function(amount) {
         TextPopup(amount + " dmg", 0xff0000, 400, 400);
         explosion.destroy();
         // XXX reduce enemy health
-    });
+        this.health -= amount;
+        mech.hud.setEnemyHealthBarSize(this.health / 10);
+    }, this);
     mech.actionQueue.registerTween(t);
 };
 

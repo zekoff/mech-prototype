@@ -4,6 +4,7 @@ var Player = require('../Element/Player');
 var Enemy = require('../Element/Enemy');
 var TableManager = require('../Helper/TableManager');
 var ActionQueue = require('../Element/ActionQueue');
+var Hud = require('../Element/Hud');
 var Hand = require('../Element/Hand');
 var deck = require('../Deck/Cowboy');
 
@@ -73,5 +74,7 @@ module.exports = {
         var uiLine = game.add.sprite(0, 500, 'pix');
         uiLine.height = 2;
         uiLine.width = 800;
+
+        mech.hud = new Hud();
     }
 };
