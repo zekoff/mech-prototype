@@ -17,13 +17,11 @@ module.exports = {
             // XXX end sample damage text
             mech.cardsPlayedThisTurn++;
             if (mech.cardsPlayedThisTurn > 2) {
-                // end turn and cycle to enemy turn
                 print('player turn ended');
                 mech.cardsPlayedThisTurn = 0;
                 mech.hand.forEach(function(card) {
                     mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
                 });
-                // TableManager.tweenToDiscardPile);
                 var i = 0,
                     num = mech.hand.length;
                 for (i; i < num; i++) {
@@ -31,9 +29,11 @@ module.exports = {
                         mech.discardPile.add(mech.hand.getTop());
                     });
                 }
-                TableManager.drawCard(5);
+                mech.actionQueue.registerFunction(function() {
+                    mech.enemy.takeTurn();
+                });
+                mech.actionQueue.registerFunction(TableManager.drawCard.bind(null, 5));
             }
-            // else TableManager.drawCard();
         });
         mech.cardsPlayedThisTurn = 0;
         var temp,
@@ -58,16 +58,11 @@ module.exports = {
                 mech.hand.removeFromHand(card);
                 mech.discardPile.add(card);
                 mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
-                // TableManager.tweenToDiscardPile(card);
-                // mech.hand.removeFromHand(card);
-                // mech.discardPile.add(card);
-                // mech.cardActivated.dispatch();
-
                 mech.actionQueue.registerFunction(mech.cardActivated.dispatch.bind(mech.cardActivated));
             }
         });
-        var e = new Enemy();
-        game.world.sendToBack(e);
+        mech.enemy = new Enemy();
+        game.world.sendToBack(mech.enemy);
         var timer = game.time.create();
         // Some kind of race condition occurs by starting the card draw tweens so soon after game init. Adding this half-second delay helps for some reason.
         timer.add(500, function() {

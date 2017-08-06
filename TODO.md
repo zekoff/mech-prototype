@@ -1,4 +1,5 @@
 # TODO
 
-- Add simple text popup and/or toast windows
-- Add in input handlers/blockers for turn ordering
+- Create card activation actions (perhaps in the card/deck definition file)
+- Give player/enemy HP values
+- Throw up health bars for each

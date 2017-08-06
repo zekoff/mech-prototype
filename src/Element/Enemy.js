@@ -1,6 +1,7 @@
-/* global Phaser, game */
+/* global Phaser, game, mech */
 var HEIGHT = 600;
 var WIDTH = 500;
+var TextPopup = require("../Helper/TextPopup");
 
 var Enemy = function() {
     Phaser.Group.call(this, game);
@@ -35,5 +36,18 @@ var Enemy = function() {
 };
 Enemy.prototype = Object.create(Phaser.Group.prototype);
 Enemy.constructor = Enemy;
+Enemy.prototype.takeTurn = function() {
+    var explosion = game.add.image(400, 900, 'explosion');
+    explosion.width = 200;
+    explosion.height = 200;
+    explosion.anchor.set(0.5);
+    var t = game.tweens.create(explosion);
+    t.to({ angle: 90 }, 900);
+    t.onComplete.add(function() {
+        explosion.destroy();
+        TextPopup("10 dmg", 0xff0000, 400, 900);
+    });
+    mech.actionQueue.registerTween(t);
+};
 
 module.exports = Enemy;
