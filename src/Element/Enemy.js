@@ -55,6 +55,7 @@ Enemy.prototype.receiveDamage = function(amount) {
         // XXX reduce enemy health
         this.health -= amount;
         mech.hud.setEnemyHealthBarSize(this.health / 10);
+        if (this.health <= 0) game.state.start('Win');
     }, this);
     mech.actionQueue.registerTween(t);
 };
