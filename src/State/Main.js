@@ -18,6 +18,7 @@ module.exports = {
             mech.player.actionsRemaining -= card.cost;
             if (mech.player.actionsRemaining <= 0 || mech.hand.length <= 0) {
                 print('player turn ended');
+                mech.player.setHighNoon(false);
                 mech.player.actionsRemaining = 3;
                 mech.hand.forEach(function(card) {
                     mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
