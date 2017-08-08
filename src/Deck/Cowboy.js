@@ -16,7 +16,10 @@ module.exports = [{
         cost: 0,
         value: 1,
         tint: 'blue',
-        copies: 2
+        copies: 2,
+        action: function(amount) {
+            mech.player.activateReload(amount);
+        }
     },
     {
         title: "OVERCHARGE",

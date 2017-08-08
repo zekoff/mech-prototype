@@ -4,17 +4,19 @@ var TextPopup = require('../Helper/TextPopup');
 var Player = function() {
     this.health = 20;
     this.actionsRemaining = 3;
+    this.dodgeStacks = 0;
+    this.reloadStacks = 0;
 };
 Player.prototype = Object.create({});
 Player.constructor = Player;
 Player.prototype.receiveHealing = function(amount) {
     var heal = game.add.image(400, 900, 'pix');
-    heal.width = 100;
-    heal.height = 100;
+    heal.width = 50;
+    heal.height = 50;
     heal.tint = 0x00ff00;
     heal.anchor.set(0.5);
     var t = game.tweens.create(heal);
-    t.to({ angle: 180 }, 900);
+    t.to({ width: 300, height: 300 }, 900);
     t.onComplete.add(function() {
         TextPopup('Healed! ' + amount + " dmg", 0x00ff00, 400, 900);
         heal.destroy();
@@ -23,8 +25,6 @@ Player.prototype.receiveHealing = function(amount) {
         mech.hud.setPlayerHealthBarSize(this.health / 20);
     }, this);
     mech.actionQueue.registerTween(t);
-
-    this.dodgeStacks = 0;
 };
 Player.prototype.receiveDamage = function(amount) {
     var dmg = game.add.image(400, 900, 'explosion');
@@ -58,9 +58,22 @@ Player.prototype.activateDodge = function(amount) {
     t.onComplete.add(function() {
         TextPopup('Dodge Stance', 0x00ff00, 400, 900);
         dodgeGraphic.destroy();
-        // TODO add stack(s) of dodge buff
         this.dodgeStacks += amount;
-        print('adding dodge stacks ', amount);
+    }, this);
+    mech.actionQueue.registerTween(t);
+};
+Player.prototype.activateReload = function(amount) {
+    var reloadGraphic = game.add.image(400, 900, 'pix');
+    reloadGraphic.width = 50;
+    reloadGraphic.height = 50;
+    reloadGraphic.tint = 0x0000ff;
+    reloadGraphic.anchor.set(0.5);
+    var t = game.tweens.create(reloadGraphic);
+    t.to({ angle: 180 }, 900);
+    t.onComplete.add(function() {
+        reloadGraphic.destroy();
+        this.reloadStacks += 2 * amount;
+        print('reload stacks added', 2 * amount);
     }, this);
     mech.actionQueue.registerTween(t);
 };

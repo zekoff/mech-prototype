@@ -13,9 +13,7 @@ module.exports = {
         mech.actionQueue = new ActionQueue();
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function(card) {
-            // XXX pop up sample damage text
             card.action(card.value);
-            // XXX end sample damage text
             mech.player.actionsRemaining -= card.cost;
             if (mech.player.actionsRemaining <= 0 || mech.hand.length <= 0) {
                 print('player turn ended');
@@ -34,6 +32,19 @@ module.exports = {
                     mech.enemy.takeTurn();
                 });
                 mech.actionQueue.registerFunction(TableManager.drawCard.bind(null, 5));
+            }
+            else {
+                mech.actionQueue.registerFunction(function() {
+                    if (mech.player.reloadStacks > 0 && mech.hand.length < 5) {
+                        print('reloading. stacks remaining ', mech.player.reloadStacks);
+                        var i;
+                        var numberToReload = Math.min(mech.player.reloadStacks, 5 - mech.hand.length);
+                        print('number to reload: ', numberToReload);
+                        mech.player.reloadStacks -= numberToReload;
+                        for (i = 0; i < numberToReload; i++)
+                            mech.actionQueue.registerFunction(TableManager.drawCard);
+                    }
+                });
             }
         });
         var temp,
