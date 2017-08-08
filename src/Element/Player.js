@@ -9,6 +9,7 @@ var Player = function() {
     this.redStacks = 0;
     this.blueStacks = 0;
     this.greenStacks = 0;
+    this.highNoonActive = false;
 };
 Player.prototype = Object.create({});
 Player.constructor = Player;
@@ -47,6 +48,7 @@ Player.prototype.receiveDamage = function(amount) {
             this.health -= amount;
             mech.hud.setPlayerHealthBarSize(this.health / 20);
         }
+        if (this.health <= 0) game.state.start('Lose');
     }, this);
     mech.actionQueue.registerTween(t);
 };
@@ -92,6 +94,9 @@ Player.prototype.adjustColorStacks = function(color) {
     print('red stacks: ', this.redStacks);
     print('blue stacks: ', this.blueStacks);
     print('green stacks: ', this.greenStacks);
+};
+Player.prototype.setHighNoon = function(active) {
+    this.highNoonActive = active;
 };
 
 module.exports = Player;

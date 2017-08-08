@@ -1,6 +1,6 @@
 /* global game, Phaser */
 module.exports = {
-    preload: function(){
+    preload: function() {
         game.input.maxPointers = 1;
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
@@ -17,9 +17,10 @@ module.exports = {
         game.load.image('right_arm');
         game.load.image('head');
         game.load.image('explosion');
-        game.load.bitmapFont('western','western.png','western.fnt');
+        game.load.bitmapFont('western', 'western.png', 'western.fnt');
+        game.load.image('western_bg');
     },
-    create: function(){
+    create: function() {
         game.state.start('Main');
     }
 };

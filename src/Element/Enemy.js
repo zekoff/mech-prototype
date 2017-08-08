@@ -34,14 +34,15 @@ var Enemy = function() {
         component.input.pixelPerfectClick = true;
     });
 
-    this.health = 20;
+    this.health = 50;
 };
 Enemy.prototype = Object.create(Phaser.Group.prototype);
 Enemy.constructor = Enemy;
 Enemy.prototype.takeTurn = function() {
-    mech.player.receiveDamage(1);
+    mech.player.receiveDamage(7);
 };
 Enemy.prototype.receiveDamage = function(amount) {
+    if (mech.player.highNoonActive) amount *= 2;
     print('took', amount, 'damage');
     var explosion = game.add.image(400, 400, 'explosion');
     explosion.width = 100;
@@ -54,7 +55,7 @@ Enemy.prototype.receiveDamage = function(amount) {
         explosion.destroy();
         // XXX reduce enemy health
         this.health -= amount;
-        mech.hud.setEnemyHealthBarSize(this.health / 20);
+        mech.hud.setEnemyHealthBarSize(this.health / 50);
         if (this.health <= 0) game.state.start('Win');
     }, this);
     mech.actionQueue.registerTween(t);

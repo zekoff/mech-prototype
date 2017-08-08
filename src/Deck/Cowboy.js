@@ -60,6 +60,9 @@ module.exports = [{
         cost: 0,
         value: 1,
         tint: 'red',
-        copies: 1
+        copies: 1,
+        action: function(amount) {
+            mech.player.setHighNoon(true);
+        }
     }
 ];

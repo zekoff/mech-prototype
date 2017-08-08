@@ -88,5 +88,9 @@ module.exports = {
         uiLine.width = 800;
 
         mech.hud = new Hud();
+        var bg = game.add.image(0, 0, 'western_bg');
+        bg.width = 800;
+        bg.height = 1200;
+        bg.sendToBack();
     }
 };
