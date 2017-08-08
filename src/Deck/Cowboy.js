@@ -38,7 +38,10 @@ module.exports = [{
         text: "Avoid the next enemy attack completely.",
         value: 1,
         tint: 'green',
-        copies: 2
+        copies: 2,
+        action: function(amount) {
+            mech.player.activateDodge(amount);
+        }
     },
     {
         title: "HIGH NOON",

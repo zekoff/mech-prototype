@@ -44,9 +44,6 @@ module.exports = {
         mech.transitionGroup = game.add.group(undefined, 'transitionGroup');
         mech.hand = new Hand();
         mech.discardPile = game.add.group(undefined, 'discardPile');
-        print(deck);
-        deck = deck.slice();
-        print(deck);
         while (deck.length > 0) {
             temp = deck.pop();
             totalCardsInDeck += temp.copies;
