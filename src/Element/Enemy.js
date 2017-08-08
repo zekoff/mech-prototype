@@ -34,7 +34,7 @@ var Enemy = function() {
         component.input.pixelPerfectClick = true;
     });
 
-    this.health = 10;
+    this.health = 20;
 };
 Enemy.prototype = Object.create(Phaser.Group.prototype);
 Enemy.constructor = Enemy;
@@ -54,7 +54,7 @@ Enemy.prototype.receiveDamage = function(amount) {
         explosion.destroy();
         // XXX reduce enemy health
         this.health -= amount;
-        mech.hud.setEnemyHealthBarSize(this.health / 10);
+        mech.hud.setEnemyHealthBarSize(this.health / 20);
         if (this.health <= 0) game.state.start('Win');
     }, this);
     mech.actionQueue.registerTween(t);

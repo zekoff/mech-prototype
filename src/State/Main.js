@@ -13,7 +13,8 @@ module.exports = {
         mech.actionQueue = new ActionQueue();
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function(card) {
-            card.action(card.value);
+            mech.player.adjustColorStacks(card.color);
+            card.action(card.value * mech.player[card.color + 'Stacks']);
             mech.player.actionsRemaining -= card.cost;
             if (mech.player.actionsRemaining <= 0 || mech.hand.length <= 0) {
                 print('player turn ended');

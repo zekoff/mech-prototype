@@ -14,6 +14,7 @@ var Card = function(color, title, text, cost, value, action) {
     Phaser.Sprite.call(this, game, 0, 0, this.cardFront);
     game.add.existing(this);
     if (action === undefined) action = function() { print('no action defined'); };
+    this.color = color;
     this.cost = cost;
     this.value = value;
     this.action = action;

@@ -6,6 +6,9 @@ var Player = function() {
     this.actionsRemaining = 3;
     this.dodgeStacks = 0;
     this.reloadStacks = 0;
+    this.redStacks = 0;
+    this.blueStacks = 0;
+    this.greenStacks = 0;
 };
 Player.prototype = Object.create({});
 Player.constructor = Player;
@@ -76,6 +79,19 @@ Player.prototype.activateReload = function(amount) {
         print('reload stacks added', 2 * amount);
     }, this);
     mech.actionQueue.registerTween(t);
+};
+Player.prototype.activateOvercharge = function(amount) {
+    this.redStacks = 3;
+    this.greenStacks = 3;
+    this.blueStacks = 3;
+};
+Player.prototype.adjustColorStacks = function(color) {
+    print(color);
+    this[color + 'Stacks'] = Math.min(3, ++this[color + 'Stacks']);
+    ['red', 'green', 'blue'].filter(function(element) { return element !== color }).forEach(function(element) { this[element + 'Stacks'] = 0 }, this);
+    print('red stacks: ', this.redStacks);
+    print('blue stacks: ', this.blueStacks);
+    print('green stacks: ', this.greenStacks);
 };
 
 module.exports = Player;
