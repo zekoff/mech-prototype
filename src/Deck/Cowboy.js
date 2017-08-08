@@ -2,6 +2,7 @@
 module.exports = [{
         title: "ATTACK",
         text: "Deal 1 damage.",
+        cost: 1,
         value: 1,
         tint: 'red',
         copies: 8,
@@ -12,6 +13,7 @@ module.exports = [{
     {
         title: "RELOAD",
         text: "FREE. Gain 2 stacks of Reload.",
+        cost: 0,
         value: 1,
         tint: 'blue',
         copies: 2
@@ -19,6 +21,7 @@ module.exports = [{
     {
         title: "OVERCHARGE",
         text: "FREE. Set all colors to max stacks this turn.",
+        cost: 0,
         value: 1,
         tint: 'blue',
         copies: 2
@@ -26,6 +29,7 @@ module.exports = [{
     {
         title: "HEAL",
         text: "Heal 1 damage.",
+        cost: 1,
         value: 1,
         tint: 'green',
         copies: 3,
@@ -36,6 +40,7 @@ module.exports = [{
     {
         title: "DODGE",
         text: "Avoid the next enemy attack completely.",
+        cost: 1,
         value: 1,
         tint: 'green',
         copies: 2,
@@ -46,6 +51,7 @@ module.exports = [{
     {
         title: "HIGH NOON",
         text: "FREE. Double the attack power of every attack card played this turn.",
+        cost: 0,
         value: 1,
         tint: 'red',
         copies: 1

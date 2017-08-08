@@ -8,12 +8,13 @@ var WIDTH = 150; // px
 var HEIGHT = 250; // px
 var FLIP_SPEED = 150; // ms
 
-var Card = function(color, title, text, value, action) {
+var Card = function(color, title, text, cost, value, action) {
     this.cardFront = CardTextureBuilder(color, title, text);
     this.cardBack = game.make.bitmapData(300, 500).copy('back');
     Phaser.Sprite.call(this, game, 0, 0, this.cardFront);
     game.add.existing(this);
     if (action === undefined) action = function() { print('no action defined'); };
+    this.cost = cost;
     this.value = value;
     this.action = action;
     this.width = WIDTH;

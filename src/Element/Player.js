@@ -3,6 +3,7 @@ var TextPopup = require('../Helper/TextPopup');
 
 var Player = function() {
     this.health = 20;
+    this.actionsRemaining = 3;
 };
 Player.prototype = Object.create({});
 Player.constructor = Player;

@@ -16,10 +16,10 @@ module.exports = {
             // XXX pop up sample damage text
             card.action(card.value);
             // XXX end sample damage text
-            mech.cardsPlayedThisTurn++;
-            if (mech.cardsPlayedThisTurn > 2) {
+            mech.player.actionsRemaining -= card.cost;
+            if (mech.player.actionsRemaining <= 0 || mech.hand.length <= 0) {
                 print('player turn ended');
-                mech.cardsPlayedThisTurn = 0;
+                mech.player.actionsRemaining = 3;
                 mech.hand.forEach(function(card) {
                     mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
                 });
@@ -36,7 +36,6 @@ module.exports = {
                 mech.actionQueue.registerFunction(TableManager.drawCard.bind(null, 5));
             }
         });
-        mech.cardsPlayedThisTurn = 0;
         var temp,
             i = 0,
             totalCardsInDeck = 0;
@@ -48,7 +47,7 @@ module.exports = {
             temp = deck.pop();
             totalCardsInDeck += temp.copies;
             for (i = 0; i < temp.copies; i++)
-                mech.drawPile.add(new Card(temp.tint, temp.title, temp.text, temp.value, temp.action));
+                mech.drawPile.add(new Card(temp.tint, temp.title, temp.text, temp.cost, temp.value, temp.action));
         }
         TableManager.initializeDrawPile();
         mech.hand.onChildInputDown.add(TableManager.pickCardFromHand);
