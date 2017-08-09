@@ -1,7 +1,5 @@
 # TODO
 
-- Decide how to handle buffs, as many of these card actions are not instants but buffs of some kind.
-- Create card activation actions (perhaps in the card/deck definition file)
 - Make enemy components targetable specifically
 - Add enemy scripting and abilities
 

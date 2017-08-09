@@ -19,6 +19,7 @@ module.exports = {
         game.load.image('explosion');
         game.load.bitmapFont('western', 'western.png', 'western.fnt');
         game.load.image('western_bg');
+        game.load.image('crosshair');
     },
     create: function() {
         game.state.start('Main');
