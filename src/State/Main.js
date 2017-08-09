@@ -83,9 +83,10 @@ module.exports = {
             TableManager.drawCard(5);
         });
         timer.start();
-        var uiLine = game.add.sprite(0, 500, 'pix');
-        uiLine.height = 2;
-        uiLine.width = 800;
+
+        // var uiLine = game.add.sprite(0, 500, 'pix');
+        // uiLine.height = 2;
+        // uiLine.width = 800;
 
         mech.hud = new Hud();
         var bg = game.add.image(0, 0, 'western_bg');

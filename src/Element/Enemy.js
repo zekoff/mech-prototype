@@ -11,10 +11,10 @@ var Enemy = function() {
         var crosshair = game.add.image(pointer.x, pointer.y, 'crosshair');
         crosshair.width = 200;
         crosshair.height = 200;
-        crosshair.angle = -180;
+        crosshair.angle = -30;
         crosshair.anchor.set(0.5);
         var t = game.tweens.create(crosshair);
-        t.to({ angle: 0, width: 100, height: 100 }, 500);
+        t.to({ angle: 0, width: 100, height: 100 }, 500, Phaser.Easing.Cubic.Out);
         t.onComplete.add(function() {
             crosshair.destroy();
         });
