@@ -8,6 +8,9 @@ var Enemy = function() {
     this.inputEnableChildren = true;
     this.onChildInputDown.add(function(target, pointer) {
         print(target.name);
+        mech.player.targetedComponent = target;
+        mech.player.targetX = pointer.x;
+        mech.player.targetY = pointer.y;
         var crosshair = game.add.image(pointer.x, pointer.y, 'crosshair');
         crosshair.width = 200;
         crosshair.height = 200;
@@ -26,14 +29,17 @@ var Enemy = function() {
     // rough center of enemy: (400, 300)
     this.componentBody = game.make.sprite(400, 350, 'body');
     this.componentBody.name = 'body';
+    this.componentBody.health = 50;
     game.tweens.create(this.componentBody).to({ y: 355 }, 1000, Phaser.Easing.Cubic.InOut, true, 0, -1, true);
     this.add(this.componentBody);
     this.componentHead = game.make.sprite(400, 350, 'head');
     this.componentHead.name = 'head';
+    this.componentHead.health = 10;
     game.tweens.create(this.componentHead).to({ y: 355 }, 1000, Phaser.Easing.Cubic.InOut, true, 0, -1, true);
     this.add(this.componentHead);
     this.componentLeftArm = game.make.sprite(400, 350, 'left_arm');
     this.componentLeftArm.name = 'left arm';
+    this.componentLeftArm.health = 30;
     this.componentLeftArm.action = function() {
         var flashTween = game.tweens.create(this.componentLeftArm);
         flashTween.to({ tint: 0x808080 }, 250, null, false, 0, 0, true);
@@ -45,6 +51,7 @@ var Enemy = function() {
     this.add(this.componentLeftArm);
     this.componentRightArm = game.make.sprite(400, 350, 'right_arm');
     this.componentRightArm.name = 'right arm';
+    this.componentRightArm.health = 30;
     this.componentRightArm.action = function() {
         var flashTween = game.tweens.create(this.componentRightArm);
         flashTween.to({ tint: 0x808080 }, 250, null, false, 0, 0, true);
@@ -56,6 +63,7 @@ var Enemy = function() {
     this.add(this.componentRightArm);
     this.componentLeg = game.make.sprite(400, 350, 'legs');
     this.componentLeg.name = 'legs';
+    this.componentLeg.health = 10;
     this.add(this.componentLeg);
     this.forEach(function(component) {
         component.anchor.set(0.5, 0.5);
@@ -75,8 +83,11 @@ Enemy.prototype.takeTurn = function() {
     }, this);
 };
 Enemy.prototype.receiveDamage = function(amount) {
+    if (!mech.player.targetedComponent) mech.player.targetedComponent = this.getByName('body');
+    if (!mech.player.targetX) mech.player.targetX = 400;
+    if (!mech.player.targetY) mech.player.targetY = 350;
     if (mech.player.highNoonActive) amount *= 2;
-    var explosion = game.add.image(400, 350, 'explosion');
+    var explosion = game.add.image(mech.player.targetX, mech.player.targetY, 'explosion');
     explosion.width = 100;
     explosion.height = 100;
     explosion.anchor.set(0.5);
@@ -93,6 +104,14 @@ Enemy.prototype.receiveDamage = function(amount) {
         if (game.rnd.frac() > dodgeChance) {
             TextPopup(amount + " dmg", 0xff0000, 400, 350);
             this.health -= amount;
+            // TODO damage actual component
+            mech.player.targetedComponent.health -= amount;
+            if (mech.player.targetedComponent.health <= 0) {
+                mech.player.targetedComponent.tint = 0xff0000;
+                mech.player.targetedComponent = this.getByName('body');
+                mech.player.targetX = 400;
+                mech.player.targetY = 350;
+            }
             mech.hud.setEnemyHealthBarSize(this.health / 50);
             if (this.health <= 0) game.state.start('Win');
         }

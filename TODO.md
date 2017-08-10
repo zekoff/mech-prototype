@@ -1,6 +1,5 @@
 # TODO
 
-- Add abilities for different enemy components
 - Make enemy components targetable specifically
 - Add enemy scripting and abilities
 - Add visual indicators of card color stacks
