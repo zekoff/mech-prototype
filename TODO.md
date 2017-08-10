@@ -1,7 +1,9 @@
 # TODO
 
+- Add abilities for different enemey components
 - Make enemy components targetable specifically
 - Add enemy scripting and abilities
+- Add visual indicators of card color stacks
 
 # BUGS
 

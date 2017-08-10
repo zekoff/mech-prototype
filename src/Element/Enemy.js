@@ -26,32 +26,34 @@ var Enemy = function() {
     // rough center of enemy: (400, 300)
     this.componentBody = game.make.sprite(400, 350, 'body');
     this.componentBody.componentName = 'body';
-    this.componentBody.visualCenterX = 400;
-    this.componentBody.visualCenterY = 350;
     game.tweens.create(this.componentBody).to({ y: 355 }, 1000, Phaser.Easing.Cubic.InOut, true, 0, -1, true);
     this.add(this.componentBody);
     this.componentHead = game.make.sprite(400, 350, 'head');
     this.componentHead.componentName = 'head';
-    this.componentHead.visualCenterX = 410;
-    this.componentHead.visualCenterY = 230;
     game.tweens.create(this.componentHead).to({ y: 355 }, 1000, Phaser.Easing.Cubic.InOut, true, 0, -1, true);
     this.add(this.componentHead);
     this.componentLeftArm = game.make.sprite(400, 350, 'left_arm');
     this.componentLeftArm.componentName = 'left arm';
-    this.componentLeftArm.visualCenterX = 280;
-    this.componentLeftArm.visualCenterY = 360;
+    this.componentLeftArm.action = function() {
+        var flashTween = game.tweens.create(this);
+        flashTween.to({ tint: 0x808080 }, 250, null, false, 0, 0, true);
+        mech.actionQueue.registerTween(flashTween);
+        mech.player.receiveDamage(4);
+    }.bind(this.componentLeftArm);
     game.tweens.create(this.componentLeftArm).to({ y: 360 }, 1000, Phaser.Easing.Cubic.InOut, true, 0, -1, true);
     this.add(this.componentLeftArm);
     this.componentRightArm = game.make.sprite(400, 350, 'right_arm');
     this.componentRightArm.componentName = 'right arm';
-    this.componentRightArm.visualCenterX = 530;
-    this.componentRightArm.visualCenterY = 350;
+    this.componentRightArm.action = function() {
+        var flashTween = game.tweens.create(this);
+        flashTween.to({ tint: 0x808080 }, 250, null, false, 0, 0, true);
+        mech.actionQueue.registerTween(flashTween);
+        mech.player.receiveDamage(4);
+    }.bind(this.componentRightArm);
     game.tweens.create(this.componentRightArm).to({ y: 360 }, 1000, Phaser.Easing.Cubic.InOut, true, 0, -1, true);
     this.add(this.componentRightArm);
     this.componentLeg = game.make.sprite(400, 350, 'legs');
     this.componentLeg.componentName = 'legs';
-    this.componentLeg.visualCenterX = 400;
-    this.componentLeg.visualCenterY = 450;
     this.add(this.componentLeg);
     this.forEach(function(component) {
         component.anchor.set(0.5, 0.5);
@@ -65,7 +67,11 @@ var Enemy = function() {
 Enemy.prototype = Object.create(Phaser.Group.prototype);
 Enemy.constructor = Enemy;
 Enemy.prototype.takeTurn = function() {
-    mech.player.receiveDamage(7);
+    this.forEach(function(component) {
+        print('component health: ', component.health);
+        if (component.health > 0 && component.action) component.action();
+    }, this);
+    // mech.player.receiveDamage(7);
 };
 Enemy.prototype.receiveDamage = function(amount) {
     if (mech.player.highNoonActive) amount *= 2;
