@@ -10,6 +10,7 @@ var deck = require('../Deck/Cowboy');
 
 module.exports = {
     create: function() {
+        mech.battlesRemaining--;
         mech.actionQueue = new ActionQueue();
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function(card) {

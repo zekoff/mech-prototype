@@ -1,7 +1,7 @@
 # TODO
 
 - String multiple battles together back-to-back
-- Add junk cards to player deck at various damage levels
+- Add junk cards to player deck at various damage levels; make deck persist between battles
 - Add sound effects
 - Add once-per-shuffle ability
 

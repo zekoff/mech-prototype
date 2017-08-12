@@ -8,4 +8,6 @@ game.state.add('Load', require('./State/Load'));
 game.state.add('Main', require('./State/Main'));
 game.state.add('Win', require('./State/Win'));
 game.state.add('Lose', require('./State/Lose'));
+game.state.add('Title', require('./State/Title'));
+game.state.add('Interstitial', require('./State/Interstitial'));
 game.state.start('Load');

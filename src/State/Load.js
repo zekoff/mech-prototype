@@ -1,4 +1,4 @@
-/* global game, Phaser */
+/* global game, Phaser, mech */
 module.exports = {
     preload: function() {
         game.input.maxPointers = 1;
@@ -20,8 +20,10 @@ module.exports = {
         game.load.bitmapFont('western', 'western.png', 'western.fnt');
         game.load.image('western_bg');
         game.load.image('crosshair');
+
+        mech.battlesRemaining = 3;
     },
     create: function() {
-        game.state.start('Main');
+        game.state.start('Title');
     }
 };

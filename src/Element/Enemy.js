@@ -113,7 +113,7 @@ Enemy.prototype.receiveDamage = function(amount) {
                 mech.player.targetY = 350;
             }
             mech.hud.setEnemyHealthBarSize(this.health / 50);
-            if (this.health <= 0) game.state.start('Win');
+            if (this.health <= 0) game.state.start('Interstitial');
         }
         else {
             TextPopup('Dodged ' + amount + " dmg!", 0x00ff00, 400, 350);
