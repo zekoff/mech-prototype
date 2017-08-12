@@ -16,9 +16,11 @@ module.exports = {
             mech.player.adjustColorStacks(card.color);
             card.action(card.value * mech.player[card.color + 'Stacks']);
             mech.player.actionsRemaining -= card.cost;
+            mech.hud.updateActionsRemaining();
             if (mech.player.actionsRemaining <= 0 || mech.hand.length <= 0) {
                 print('player turn ended');
                 mech.player.setHighNoon(false);
+                mech.hud.getByName('highNoonBuff').visible = false;
                 mech.player.actionsRemaining = 3;
                 mech.hand.forEach(function(card) {
                     mech.actionQueue.registerTween(TableManager.createTweenToDiscardPile(card));
@@ -34,6 +36,7 @@ module.exports = {
                     mech.enemy.takeTurn();
                 });
                 mech.actionQueue.registerFunction(TableManager.drawCard.bind(null, 5));
+                mech.actionQueue.registerFunction(mech.hud.updateActionsRemaining.bind(mech.hud));
             }
             else {
                 mech.actionQueue.registerFunction(function() {
@@ -43,6 +46,8 @@ module.exports = {
                         var numberToReload = Math.min(mech.player.reloadStacks, 5 - mech.hand.length);
                         print('number to reload: ', numberToReload);
                         mech.player.reloadStacks -= numberToReload;
+                        mech.hud.getByName('reloadBuff').text = "RELOAD x" + mech.player.reloadStacks;
+                        if (mech.player.reloadStacks < 1) mech.hud.getByName('reloadBuff').visible = false;
                         for (i = 0; i < numberToReload; i++)
                             mech.actionQueue.registerFunction(TableManager.drawCard);
                     }

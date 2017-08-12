@@ -42,6 +42,8 @@ Player.prototype.receiveDamage = function(amount) {
         if (this.dodgeStacks > 0) {
             TextPopup('Dodged ' + amount + ' dmg!', 0x00ff00, 400, 900);
             this.dodgeStacks--;
+            mech.hud.getByName('dodgeBuff').text = "DODGE x" + this.dodgeStacks;
+            if (this.dodgeStacks < 1) mech.hud.getByName('dodgeBuff').visible = false;
         }
         else {
             TextPopup('Took ' + amount + " dmg", 0xff0000, 400, 900);
@@ -64,6 +66,8 @@ Player.prototype.activateDodge = function(amount) {
         TextPopup('Dodge Stance', 0x00ff00, 400, 900);
         dodgeGraphic.destroy();
         this.dodgeStacks += amount;
+        mech.hud.getByName('dodgeBuff').visible = true;
+        mech.hud.getByName('dodgeBuff').text = "DODGE x" + this.dodgeStacks;
     }, this);
     mech.actionQueue.registerTween(t);
 };
@@ -79,6 +83,8 @@ Player.prototype.activateReload = function(amount) {
         reloadGraphic.destroy();
         this.reloadStacks += 2 * amount;
         print('reload stacks added', 2 * amount);
+        mech.hud.getByName('reloadBuff').visible = true;
+        mech.hud.getByName('reloadBuff').text = "RELOAD x" + this.reloadStacks;
     }, this);
     mech.actionQueue.registerTween(t);
 };
@@ -86,6 +92,7 @@ Player.prototype.activateOvercharge = function(amount) {
     this.redStacks = 3;
     this.greenStacks = 3;
     this.blueStacks = 3;
+    // mech.hud.getByName('overloadBuff').visible = true;
 };
 Player.prototype.adjustColorStacks = function(color) {
     var colorArray = ['red', 'green', 'blue'];
@@ -97,6 +104,7 @@ Player.prototype.adjustColorStacks = function(color) {
 };
 Player.prototype.setHighNoon = function(active) {
     this.highNoonActive = active;
+    mech.hud.getByName('highNoonBuff').visible = true;
 };
 
 module.exports = Player;

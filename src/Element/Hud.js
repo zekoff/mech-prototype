@@ -1,4 +1,4 @@
-/* global game, Phaser */
+/* global game, Phaser, mech */
 var STACK_BAR_MAX_HEIGHT = 90;
 var MAX_STACKS = 3; // just a game constant right now
 
@@ -41,7 +41,49 @@ var Hud = function() {
         temp.tint = stackBars[i].tint;
         temp.anchor.set(0, 1);
         temp.width = 20;
-        temp.height = 90;
+        temp.height = 1;
+        this.add(temp);
+    }
+
+    var highNoonBuff = game.add.bitmapText(190, 600, 'western', 'HIGH NOON', 40);
+    highNoonBuff.tint = 0xff0000;
+    highNoonBuff.anchor.set(0.5);
+    highNoonBuff.name = 'highNoonBuff';
+    this.add(highNoonBuff);
+    highNoonBuff.visible = false;
+
+    var dodgeBuff = game.add.bitmapText(350, 600, 'western', 'DODGE x1', 40);
+    dodgeBuff.tint = 0x00ff00;
+    dodgeBuff.anchor.set(0.5);
+    dodgeBuff.name = "dodgeBuff";
+    this.add(dodgeBuff);
+    dodgeBuff.visible = false;
+
+    var reloadBuff = game.add.bitmapText(510, 600, 'western', 'RELOAD x2', 40);
+    reloadBuff.tint = 0x0000ff;
+    reloadBuff.name = 'reloadBuff';
+    reloadBuff.anchor.set(0.5);
+    this.add(reloadBuff);
+    reloadBuff.visible = false;
+
+    var overloadBuff = game.add.bitmapText(700, 600, 'western', 'OVERCHARGE', 40);
+    overloadBuff.tint = 0x0000ff;
+    overloadBuff.anchor.set(0.5);
+    overloadBuff.name = 'overloadBuff';
+    this.add(overloadBuff);
+    overloadBuff.visible = false;
+
+    var actionsRemainingText = game.add.bitmapText(700, 555, 'western', 'Actions:', 30);
+    actionsRemainingText.tint = 0x000000;
+    this.add(actionsRemainingText);
+
+    this.actionPips = [];
+    for (i = 0; i < 3; i++) {
+        temp = game.add.image(700 + i * 25, 610, 'pix');
+        temp.tint = 0xa56729;
+        temp.width = 20;
+        temp.height = 20;
+        this.actionPips.push(temp);
         this.add(temp);
     }
 };
@@ -52,6 +94,13 @@ Hud.prototype.setEnemyHealthBarSize = function(value) {
 };
 Hud.prototype.setPlayerHealthBarSize = function(value) {
     this.playerHealthBar.height = 400 * value;
+};
+Hud.prototype.updateActionsRemaining = function() {
+    var i;
+    this.actionPips.forEach(function(pip) {
+        pip.visible = false;
+    }, this);
+    for (i = 0; i < mech.player.actionsRemaining; i++) this.actionPips[i].visible = true;
 };
 
 module.exports = Hud;

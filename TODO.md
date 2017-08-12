@@ -1,6 +1,6 @@
 # TODO
 
-- Add text for active buffs
+- Add text for active buffs (high noon, dodge stance, reload, overcharge)
 - String multiple battles together back-to-back
 - Add junk cards to player deck at various damage levels
 - Add sound effects
