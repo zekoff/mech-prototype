@@ -56,13 +56,14 @@ module.exports = {
         });
         var temp,
             i = 0,
+            j = 0,
             totalCardsInDeck = 0;
         mech.drawPile = game.add.group(undefined, 'drawPile');
         mech.transitionGroup = game.add.group(undefined, 'transitionGroup');
         mech.hand = new Hand();
         mech.discardPile = game.add.group(undefined, 'discardPile');
-        while (deck.length > 0) {
-            temp = deck.pop();
+        for (j = 0; j < deck.length; j++) {
+            temp = deck[j];
             totalCardsInDeck += temp.copies;
             for (i = 0; i < temp.copies; i++)
                 mech.drawPile.add(new Card(temp.tint, temp.title, temp.text, temp.cost, temp.value, temp.action));
