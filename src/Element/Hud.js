@@ -1,4 +1,6 @@
 /* global game, Phaser */
+var STACK_BAR_MAX_HEIGHT = 90;
+var MAX_STACKS = 3; // just a game constant right now
 
 var Hud = function() {
     Phaser.Group.call(this, game, game.world, 'hud');
@@ -26,6 +28,22 @@ var Hud = function() {
     this.playerHealthBar.anchor.set(0.5, 1);
     this.playerHealthBar.height = 400;
     this.playerHealthBar.width = 50;
+
+    var buffBarBg = game.add.image(0, 550, 'pix');
+    buffBarBg.height = 100;
+    buffBarBg.width = 800;
+    this.add(buffBarBg);
+
+    var i, temp, stackBars = [{ name: 'red', tint: 0xff0000 }, { name: 'green', tint: 0x00ff00 }, { name: 'blue', tint: 0x0000ff }];
+    for (i = 0; i < stackBars.length; i++) {
+        temp = game.add.image(5 + i * 25, 645, 'pix');
+        temp.name = stackBars[i].name + "StackBar";
+        temp.tint = stackBars[i].tint;
+        temp.anchor.set(0, 1);
+        temp.width = 20;
+        temp.height = 90;
+        this.add(temp);
+    }
 };
 Hud.prototype = Object.create(Phaser.Group.prototype);
 Hud.constructor = Hud;

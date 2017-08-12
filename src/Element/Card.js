@@ -39,7 +39,6 @@ var Card = function(color, title, text, cost, value, action) {
         if (group.name === 'hand') card.inputEnabled = true;
         else card.inputEnabled = false;
     }, this);
-    print('card created');
 };
 Card.prototype = Object.create(Phaser.Sprite.prototype);
 Card.constructor = Card;

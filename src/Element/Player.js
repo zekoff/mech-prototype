@@ -88,12 +88,12 @@ Player.prototype.activateOvercharge = function(amount) {
     this.blueStacks = 3;
 };
 Player.prototype.adjustColorStacks = function(color) {
-    print(color);
+    var colorArray = ['red', 'green', 'blue'];
     this[color + 'Stacks'] = Math.min(3, ++this[color + 'Stacks']);
-    ['red', 'green', 'blue'].filter(function(element) { return element !== color }).forEach(function(element) { this[element + 'Stacks'] = 0 }, this);
-    print('red stacks: ', this.redStacks);
-    print('blue stacks: ', this.blueStacks);
-    print('green stacks: ', this.greenStacks);
+    colorArray.filter(function(element) { return element !== color }).forEach(function(element) { this[element + 'Stacks'] = 0 }, this);
+    colorArray.forEach(function(color) {
+        mech.hud.getByName(color + 'StackBar').height = 30 * this[color + 'Stacks'] + 1;
+    }, this);
 };
 Player.prototype.setHighNoon = function(active) {
     this.highNoonActive = active;
