@@ -95,6 +95,9 @@ TableManager.drawCard = function(number) {
 };
 TableManager.reshuffle = function() {
     print('reshuffling');
+    var button = mech.hud.getByName('showdownButton');
+    button.tint = 0xb0b0ff;
+    button.inputEnabled = true;
     var temp = [];
     mech.discardPile.forEach(function(element) {
         temp.push(element);

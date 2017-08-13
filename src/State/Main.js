@@ -15,7 +15,8 @@ module.exports = {
         mech.cardActivated = new Phaser.Signal();
         mech.cardActivated.add(function(card) {
             mech.player.adjustColorStacks(card.color);
-            card.action(card.value * mech.player[card.color + 'Stacks']);
+            card.action(card.value * mech.player[card.color + 'Stacks'] * (mech.player.showdown ? 2 : 1));
+            mech.player.showdown = false;
             mech.player.actionsRemaining -= card.cost;
             mech.hud.updateActionsRemaining();
             if (mech.player.actionsRemaining <= 0 || mech.hand.length <= 0) {

@@ -1,6 +1,5 @@
 # TODO
 
-- Add once-per-shuffle ability
 
 # BUGS
 

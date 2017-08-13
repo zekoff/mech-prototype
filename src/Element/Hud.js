@@ -86,6 +86,23 @@ var Hud = function() {
         this.actionPips.push(temp);
         this.add(temp);
     }
+
+    var showdown = game.add.image(700, 790, 'pix');
+    showdown.name = 'showdownButton';
+    showdown.anchor.set(0.5);
+    showdown.tint = 0xb0b0ff;
+    showdown.width = 80;
+    showdown.height = 200;
+    showdown.inputEnabled = true;
+    showdown.events.onInputUp.add(function() {
+        mech.player.activateShowdown();
+    });
+    this.add(showdown);
+    var sdt = game.add.bitmapText(700, 790, 'western', 'SHOWDOWN', 50);
+    sdt.tint = 0x303030;
+    sdt.anchor.set(0.5);
+    sdt.angle = 90;
+    this.add(sdt);
 };
 Hud.prototype = Object.create(Phaser.Group.prototype);
 Hud.constructor = Hud;

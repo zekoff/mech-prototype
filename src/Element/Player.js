@@ -127,5 +127,12 @@ Player.prototype.setHighNoon = function(active) {
     this.highNoonActive = active;
     mech.hud.getByName('highNoonBuff').visible = true;
 };
+Player.prototype.activateShowdown = function() {
+    mech.hud.getByName('showdownButton').tint = 0x808080;
+    print('showdown, next card double value');
+    mech.hud.getByName('showdownButton').inputEnabled = false;
+    TextPopup('SHOWDOWN', 0x0000ff, 400, 900);
+    this.showdown = true;
+};
 
 module.exports = Player;
