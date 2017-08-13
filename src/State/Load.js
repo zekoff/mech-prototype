@@ -10,6 +10,7 @@ module.exports = {
         game.load.image('back');
         game.load.image('blue');
         game.load.image('red');
+        game.load.image('grey');
         game.load.image('green');
         game.load.image('legs');
         game.load.image('body');
