@@ -72,7 +72,7 @@ var Enemy = function() {
         component.input.pixelPerfectClick = true;
     });
 
-    this.health = 50;
+    this.health = 5;
 };
 Enemy.prototype = Object.create(Phaser.Group.prototype);
 Enemy.constructor = Enemy;

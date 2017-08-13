@@ -6,7 +6,7 @@ var TableManager = require('../Helper/TableManager');
 var ActionQueue = require('../Element/ActionQueue');
 var Hud = require('../Element/Hud');
 var Hand = require('../Element/Hand');
-var deck = require('../Deck/Cowboy');
+var Deck = require('../Deck/Cowboy');
 
 module.exports = {
     create: function() {
@@ -55,20 +55,17 @@ module.exports = {
                 });
             }
         });
-        var temp,
-            i = 0,
-            j = 0,
-            totalCardsInDeck = 0;
+        var temp, i, j;
         mech.drawPile = game.add.group(undefined, 'drawPile');
         mech.transitionGroup = game.add.group(undefined, 'transitionGroup');
         mech.hand = new Hand();
         mech.discardPile = game.add.group(undefined, 'discardPile');
-        for (j = 0; j < deck.length; j++) {
-            temp = deck[j];
-            totalCardsInDeck += temp.copies;
+        for (j = 0; j < Deck.length; j++) {
+            temp = Deck[j];
             for (i = 0; i < temp.copies; i++)
                 mech.drawPile.add(new Card(temp.tint, temp.title, temp.text, temp.cost, temp.value, temp.action));
         }
+        for (i = 0; i < mech.numberOfJunkCards; i++) mech.drawPile.add(new Card('grey', 'DAMAGED', "NO EFFECT. Your mech has taken damage and will need to be repaired.", 1, 1));
         TableManager.initializeDrawPile();
         mech.hand.onChildInputDown.add(TableManager.pickCardFromHand);
         mech.hand.onChildInputUp.add(function(card) {

@@ -51,25 +51,26 @@ Player.prototype.receiveDamage = function(amount) {
             TextPopup('Took ' + amount + " dmg", 0xff0000, 400, 900);
             this.health -= amount;
             mech.hud.setPlayerHealthBarSize(this.health / 20);
+            if (game.rnd.frac() < .9) {
+                // Add junk card to discard pile
+                var junk = new Card('grey', 'DAMAGED', "NO EFFECT. Your mech has taken damage and will need to be repaired.", 1, 1);
+                mech.discardPile.add(junk);
+                junk.x = 400;
+                junk.y = 300;
+                junk.height = 0;
+                junk.width = 0;
+                junk.visible = false;
+                var tween = TableManager.createTweenToDiscardPile(junk);
+                tween.onStart.add(function() {
+                    junk.visible = true;
+                });
+                mech.numberOfJunkCards++;
+                mech.actionQueue.registerTween(tween);
+            }
         }
         if (this.health <= 0) game.state.start('Lose');
     }, this);
     mech.actionQueue.registerTween(t);
-    if (game.rnd.frac() < .3) {
-        // Add junk card to discard pile
-        var junk = new Card('grey', 'DAMAGED', "NO EFFECT. Your mech has taken damage and will need to be repaired.", 1, 1);
-        mech.discardPile.add(junk);
-        junk.x = 400;
-        junk.y = 300;
-        junk.height = 0;
-        junk.width = 0;
-        junk.visible = false;
-        var tween = TableManager.createTweenToDiscardPile(junk);
-        tween.onStart.add(function() {
-            junk.visible = true;
-        });
-        mech.actionQueue.registerTween(tween);
-    }
 };
 Player.prototype.activateDodge = function(amount) {
     var dodgeGraphic = game.add.image(400, 900, 'pix');
