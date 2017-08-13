@@ -72,7 +72,7 @@ var Enemy = function() {
         component.input.pixelPerfectClick = true;
     });
 
-    this.health = 5;
+    this.health = 50;
 };
 Enemy.prototype = Object.create(Phaser.Group.prototype);
 Enemy.constructor = Enemy;
@@ -102,6 +102,7 @@ Enemy.prototype.receiveDamage = function(amount) {
         print('dodge chance: ', dodgeChance);
         // roll rand, if greater than dodge chance, deal damage, else dodge
         if (game.rnd.frac() > dodgeChance) {
+            game.sound.play('explosion');
             TextPopup(amount + " dmg", 0xff0000, 400, 350);
             this.health -= amount;
             // TODO damage actual component

@@ -21,6 +21,9 @@ module.exports = {
         game.load.bitmapFont('western', 'western.png', 'western.fnt');
         game.load.image('western_bg');
         game.load.image('crosshair');
+        game.load.audio('explosion', 'explosion.wav');
+        game.load.audio('powerup_1', 'powerup_1.wav');
+        game.load.audio('powerup_2', 'powerup_2.wav');
 
         mech.battlesRemaining = 3;
     },

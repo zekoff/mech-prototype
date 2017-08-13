@@ -1,7 +1,5 @@
 # TODO
 
-- Add junk cards to player deck at various damage levels; make deck persist between battles
-- Add sound effects
 - Add once-per-shuffle ability
 
 # BUGS

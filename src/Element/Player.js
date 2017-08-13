@@ -26,7 +26,7 @@ Player.prototype.receiveHealing = function(amount) {
     t.onComplete.add(function() {
         TextPopup('Healed! ' + amount + " dmg", 0x00ff00, 400, 900);
         heal.destroy();
-        // XXX heal player
+        game.sound.play('powerup_1');
         this.health += amount;
         mech.hud.setPlayerHealthBarSize(this.health / 20);
     }, this);
@@ -49,9 +49,10 @@ Player.prototype.receiveDamage = function(amount) {
         }
         else {
             TextPopup('Took ' + amount + " dmg", 0xff0000, 400, 900);
+            game.sound.play('explosion');
             this.health -= amount;
             mech.hud.setPlayerHealthBarSize(this.health / 20);
-            if (game.rnd.frac() < .9) {
+            if (game.rnd.frac() < .3) {
                 // Add junk card to discard pile
                 var junk = new Card('grey', 'DAMAGED', "NO EFFECT. Your mech has taken damage and will need to be repaired.", 1, 1);
                 mech.discardPile.add(junk);
@@ -83,6 +84,7 @@ Player.prototype.activateDodge = function(amount) {
     t.onComplete.add(function() {
         TextPopup('Dodge Stance', 0x00ff00, 400, 900);
         dodgeGraphic.destroy();
+        game.sound.play('powerup_2');
         this.dodgeStacks += amount;
         mech.hud.getByName('dodgeBuff').visible = true;
         mech.hud.getByName('dodgeBuff').text = "DODGE x" + this.dodgeStacks;
@@ -99,6 +101,7 @@ Player.prototype.activateReload = function(amount) {
     t.to({ angle: 180 }, 900);
     t.onComplete.add(function() {
         reloadGraphic.destroy();
+        game.sound.play('powerup_1');
         this.reloadStacks += 2 * amount;
         print('reload stacks added', 2 * amount);
         mech.hud.getByName('reloadBuff').visible = true;
